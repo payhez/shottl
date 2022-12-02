@@ -1,13 +1,13 @@
-package com.payhez.shuttler.ai;
+package com.payhez.shuttler.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AiApplicationTests {
+class GatewayApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
