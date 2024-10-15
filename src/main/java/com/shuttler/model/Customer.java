@@ -1,6 +1,6 @@
 package com.shuttler.model;
 
-import com.shuttler.model.enums.CustomerType;
+import com.shuttler.model.enums.InstitutionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,8 @@ import org.springframework.data.geo.Point;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
-    private String name;
+    private String institutionName;
     private Address address;
-    private CustomerType customerType;
+    private InstitutionType institutionType;
     private Point geoLocation;
 }

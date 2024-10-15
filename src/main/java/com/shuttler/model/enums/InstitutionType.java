@@ -1,6 +1,6 @@
 package com.shuttler.model.enums;
 
-public enum CustomerType {
+public enum InstitutionType {
     SCHOOL,
     COMPANY,
     ORGANIZATION
