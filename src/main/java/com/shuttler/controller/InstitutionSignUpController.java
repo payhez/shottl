@@ -10,7 +10,6 @@ public class InstitutionSignUpController {
 
     @PostMapping("/signup")
     ResponseEntity<?> signUpInstitution(@RequestBody institutionRequest) {
-
         return null;
     }
 }
