@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InstitutionSignUpController {
 
-    @PostMapping("")
+    @PostMapping("/signup")
     ResponseEntity<?> signUpInstitution(@RequestBody institutionRequest) {
 
         return null;
