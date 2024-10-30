@@ -8,13 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ManagerSignUpController {
-
-
-
-    @PostMapping("/manager/signup")
+    @PostMapping("/manager")
     ResponseEntity<?> signUpOrganisationManager(@RequestBody ManagerSignUpRequest request) {
-
-
-
+        return null;
     }
 }

@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: shuttler
+  data:
+    mongodb:
+      uri: localhost:27017
