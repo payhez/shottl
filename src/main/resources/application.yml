@@ -3,4 +3,5 @@ spring:
     name: shuttler
   data:
     mongodb:
-      uri: localhost:27017
+      uri: localhost:27017/shuttler
+    auto-index-creation: true
