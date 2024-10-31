@@ -1,9 +1,49 @@
+version: '3.8'
+
 services:
-  mongodb:
-    image: 'mongo:latest'
+  mongo1:
+    image: mongo:latest
+    container_name: shuttler1
     ports:
-      - '27017:27017'
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_REPLICA_SET_NAME: rs0
     volumes:
-      - shuttlerdata:/data/db
+      - shuttler1_data:/data/db
+      - .compose-init/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    networks:
+      - mongo-network
+
+  mongo2:
+    image: mongo:latest
+    container_name: shuttler2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_REPLICA_SET_NAME: rs0
+    volumes:
+      - shuttler2_data:/data/db
+    networks:
+      - mongo-network
+
+  mongo3:
+    image: mongo:latest
+    container_name: shuttler3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_REPLICA_SET_NAME: rs0
+    volumes:
+      - shuttler3_data:/data/db
+    networks:
+      - mongo-network
+
 volumes:
-  shuttlerdata:
+  shuttler1_data:
+  shuttler2_data:
+  shuttler3_data:
+
+networks:
+  mongo-network:
