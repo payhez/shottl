@@ -1,6 +1,7 @@
 spring:
   application:
     name: shuttler
+    port: 8080
   data:
     mongodb:
       uri: localhost:27017/shuttler
