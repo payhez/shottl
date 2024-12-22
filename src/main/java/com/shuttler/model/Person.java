@@ -15,4 +15,6 @@ public class Person {
     private Date birthDate;
     private Address address;
     private Point geoLocation;
+    private String email;
+    private String phoneNumber;
 }

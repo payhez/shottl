@@ -3,6 +3,7 @@ package com.shuttler.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
@@ -10,7 +11,11 @@ import java.util.Date;
 @Data
 @SuperBuilder
 public class Passenger extends Person {
+    @Id
+    private String id;
+
     private Date signUpDate;
-    private Date customerId;
+    private Date updateDate;
+    private String institutionId;
     private Boolean active;
 }
