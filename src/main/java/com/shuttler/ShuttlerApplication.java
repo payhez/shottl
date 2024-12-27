@@ -8,6 +8,5 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class ShuttlerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ShuttlerApplication.class, args);
-
 	}
 }
