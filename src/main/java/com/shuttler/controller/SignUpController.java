@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController("/signup")
 public class SignUpController {
 
@@ -52,6 +54,7 @@ public class SignUpController {
                 .surname(request.getLastName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
+                .signUpDate(new Date())
                 .build();
 
         if (ObjectUtils.isEmpty(managerService.addManager(manager))) {
