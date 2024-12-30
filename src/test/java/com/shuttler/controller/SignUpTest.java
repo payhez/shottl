@@ -1,11 +1,13 @@
 package com.shuttler.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shuttler.BaseTest;
 import com.shuttler.controller.request.ManagerSignUpRequest;
 import com.shuttler.dao.ManagerRepository;
 import com.shuttler.model.Manager;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SignUpTest {
+public class SignUpTest extends BaseTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,6 +49,7 @@ public class SignUpTest {
                 .andExpect(status().is2xxSuccessful());
 
         List<Manager> managers = managerRepository.findAll();
-        Assert.assertTrue(CollectionUtils.isNotEmpty(managers));
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(managers));
+        Assertions.assertEquals(1, managers.size());
     }
 }
