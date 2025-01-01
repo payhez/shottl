@@ -6,7 +6,6 @@ import com.shuttler.controller.request.ManagerSignUpRequest;
 import com.shuttler.dao.ManagerRepository;
 import com.shuttler.model.Manager;
 import org.apache.commons.collections.CollectionUtils;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
