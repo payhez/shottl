@@ -11,6 +11,7 @@ import org.testcontainers.containers.MongoDBContainer;
 public class BaseTest {
 
     private static MongoDBContainer mongoDBContainer;
+
     @Autowired
     protected MongoTemplate mongoTemplate;
 
