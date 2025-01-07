@@ -16,6 +16,6 @@ public class Passenger extends Person {
 
     private Date signUpDate;
     private Date updateDate;
-    private String institutionId;
+    private String organisationId;
     private Boolean active;
 }

@@ -1,7 +1,7 @@
 package com.shuttler.model.enums;
 
-public enum InstitutionType {
+public enum OrganisationType {
     SCHOOL,
     COMPANY,
-    ORGANIZATION
+    EVENT
 }

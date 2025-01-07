@@ -1,6 +1,6 @@
 package com.shuttler.model;
 
-import com.shuttler.model.enums.InstitutionType;
+import com.shuttler.model.enums.OrganisationType;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -12,18 +12,19 @@ import java.util.List;
 
 @Data
 @Builder
-@Document("institution")
-public class Institution {
+@Document("organisation")
+public class Organisation {
     @Id
     private String id;
 
     @Indexed(unique = true)
-    private String institutionName;
+    private String organisationName;
 
     private Address address;
-    private InstitutionType institutionType;
+    private OrganisationType organisationType;
     private Point geoLocation;
     private Integer totalNumberOfPassengers;
+    private Integer activeNumberOfPassengers;
     private String email;
     private String phoneNumber;
     private List<String> managers;
