@@ -29,7 +29,6 @@ public class SignUpController {
     @Autowired
     OrganisationService organisationService;
 
-    @Autowired
     ManagerService managerService;
 
     @Autowired
