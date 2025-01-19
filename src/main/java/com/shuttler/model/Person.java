@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.Date;
 
@@ -17,6 +18,10 @@ public class Person {
     private Date birthDate;
     private Address address;
     private Point geoLocation;
+
+    @Indexed(unique = true, sparse = true)
     private String email;
+
+    @Indexed(unique = true, sparse = true)
     private String phoneNumber;
 }
