@@ -10,22 +10,14 @@ import com.shuttler.model.Address;
 import com.shuttler.model.Manager;
 import com.shuttler.model.Organisation;
 import com.shuttler.model.enums.OrganisationType;
-import graphql.Assert;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import reactor.test.StepVerifier;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -56,17 +48,12 @@ public class SignUpTest extends BaseTest {
                 .phoneNumber("051353342")
                 .build();
 
-        String responseAsString = mockMvc.perform(post("/manager")
+        String responseAsString = mockMvc.perform(post("/signup/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(managerRequest)))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn().getResponse().getContentAsString();
         Manager savedManager = objectMapper.readValue(responseAsString, Manager.class);
-
-        StepVerifier.create(managerRepository.findAll()) // Query the repository to check the entity
-                .expectComplete()
-                .verify();
-
 
         StepVerifier.create(managerRepository.findById(savedManager.getId()))
                 .expectNextMatches(savedEntity -> savedEntity.getFirstName().equals("TheName"))
@@ -88,7 +75,7 @@ public class SignUpTest extends BaseTest {
                 .geoLocation(new Point(25.5, 78.9))
                 .organisationType(OrganisationType.SCHOOL).build();
 
-        String responseAsString = mockMvc.perform(post("/organisation")
+        String responseAsString = mockMvc.perform(post("/signup/organisation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful())
