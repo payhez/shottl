@@ -4,4 +4,4 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017,localhost:27018,localhost:27019/shuttler?replicaSet=rs0
-    auto-index-creation: true
+      auto-index-creation: true
