@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   mongo1:
@@ -12,13 +12,12 @@ services:
       test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017',priority:1},{_id:1,host:'host.docker.internal:27018',priority:0.5},{_id:2,host:'host.docker.internal:27019',priority:0.5}]}) }" | mongosh --port 27017 --quiet
       interval: 5s
       timeout: 30s
-      start_period: 0s
-      start_interval: 1s
+      start_period: 10s
+      #start_interval: 1s
       retries: 30
-    networks:
-      - mongo-net
     volumes:
-      - mongo1-data:/data/db
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
 
   mongo2:
     image: mongo:latest
@@ -27,10 +26,9 @@ services:
       - "27018:27018"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    networks:
-      - mongo-net
     volumes:
-      - mongo2-data:/data/db
+      - "mongo2_data:/data/db"
+      - "mongo2_config:/data/configdb"
 
   mongo3:
     image: mongo:latest
@@ -39,16 +37,14 @@ services:
       - "27019:27019"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    networks:
-      - mongo-net
     volumes:
-      - mongo3-data:/data/db
-
-networks:
-  mongo-net:
-    driver: bridge
+      - "mongo3_data:/data/db"
+      - "mongo3_config:/data/configdb"
 
 volumes:
-  mongo1-data:
-  mongo2-data:
-  mongo3-data:
+  mongo1_data:
+  mongo2_data:
+  mongo3_data:
+  mongo1_config:
+  mongo2_config:
+  mongo3_config:
