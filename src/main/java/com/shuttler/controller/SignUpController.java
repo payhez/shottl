@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
@@ -35,7 +34,7 @@ public class SignUpController {
     PassengerService passengerService;
 
     @PostMapping("/manager")
-    Mono<? extends ResponseEntity<?>> signUpManager(@RequestBody ManagerSignUpRequest request) {
+    Mono<ResponseEntity<?>> signUpManager(@RequestBody ManagerSignUpRequest request) {
         Manager manager = Manager.builder()
                 .firstName(request.getFirstName())
                 .middleName(request.getMiddleName())
@@ -47,11 +46,8 @@ public class SignUpController {
 
         return managerService.addManager(manager)
                 .map(result -> {
-                    if (result instanceof Manager savedManager) {
-                        return new ResponseEntity<>(savedManager, HttpStatus.ACCEPTED);
-                    } else if (result instanceof HttpClientErrorException httpClientErrorException) {
-                        return new ResponseEntity<>(httpClientErrorException.getResponseBodyAsString(),
-                                httpClientErrorException.getStatusCode());
+                    if (result instanceof ResponseEntity<?> responseEntity) {
+                        return responseEntity;
                     }
                     return new ResponseEntity<>("Internal Server error!", HttpStatus.INTERNAL_SERVER_ERROR);
                 });

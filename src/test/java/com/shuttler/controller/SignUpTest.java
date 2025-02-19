@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import reactor.test.StepVerifier;
 
@@ -47,18 +48,18 @@ public class SignUpTest extends BaseTest {
                 .email("test@test.com")
                 .phoneNumber("051353342")
                 .build();
+        ResponseEntity<?> response = (ResponseEntity<?>) mockMvc.perform(post("/signup/manager")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(managerRequest)))
+                    .andExpect(status().is2xxSuccessful())
+                    .andReturn().getAsyncResult(5000);
 
-        String responseAsString = mockMvc.perform(post("/signup/manager")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(managerRequest)))
-                .andExpect(status().is2xxSuccessful())
-                .andReturn().getResponse().getContentAsString();
-        Manager savedManager = objectMapper.readValue(responseAsString, Manager.class);
+        Manager savedManager = (Manager) response.getBody();
 
-        StepVerifier.create(managerRepository.findById(savedManager.getId()))
-                .expectNextMatches(savedEntity -> savedEntity.getFirstName().equals("TheName"))
-                .expectComplete()
-                .verify();
+       StepVerifier.create(managerRepository.findById(savedManager.getId()))
+               .expectNextMatches(savedEntity -> savedEntity.getFirstName().equals("TheName"))
+               .expectComplete()
+               .verify();
     }
 
     @Test

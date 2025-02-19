@@ -6,11 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Testcontainers
 @SpringBootTest
-public class BaseTest {
+public abstract class BaseTest {
 
-    private static MongoDBContainer mongoDBContainer;
+    @Container
+    private static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest");
 
     @Autowired
     protected MongoTemplate mongoTemplate;
@@ -19,9 +23,9 @@ public class BaseTest {
     static void startMongoDBContainer() {
         if (mongoDBContainer == null) {
             mongoDBContainer = new MongoDBContainer("mongo:latest");
-            mongoDBContainer.start();
-            System.setProperty("spring.data.mongodb.uri", mongoDBContainer.getReplicaSetUrl());
         }
+        mongoDBContainer.start();
+        System.setProperty("spring.data.mongodb.uri", mongoDBContainer.getReplicaSetUrl());
     }
 
     @AfterEach
