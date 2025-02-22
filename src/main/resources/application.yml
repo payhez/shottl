@@ -13,8 +13,16 @@ spring:
             client-id: shuttler
             client-secret: kcnwlBvVSPlT2Jbzce4LZuiAmLmQ0L76
             scope: openid, profile, email
-            authorization-grant-type: authorization_code
+            authorization-grant-type: client_credentials
             redirect-uri: http://localhost:8080
         provider:
           keycloak:
             issuer-uri: http://localhost:8081/realms/shuttler
+keycloak:
+  admin:
+    serverUrl: http://localhost:8081
+    realm: shuttler
+    adminUser: admin
+    adminPassword: adminPass
+    clientId: admin-cli
+    adminRealm: master

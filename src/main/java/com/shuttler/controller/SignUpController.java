@@ -44,7 +44,7 @@ public class SignUpController {
                 .signUpDate(new Date())
                 .build();
 
-        return managerService.addManager(manager)
+        return managerService.addManager(manager, request.getPassword())
                 .map(result -> {
                     if (result instanceof ResponseEntity<?> responseEntity) {
                         return responseEntity;
