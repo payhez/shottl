@@ -2,3 +2,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/test
+keycloak:
+  admin:
+    #serverUrl: http://localhost:8081
+    realm: shuttler
+    adminUser: admin
+    adminPassword: adminPass
+    clientId: admin-cli
+    adminRealm: master
