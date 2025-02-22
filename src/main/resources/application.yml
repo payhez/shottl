@@ -5,3 +5,16 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017,localhost:27018,localhost:27019/shuttler?replicaSet=rs0
       auto-index-creation: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: shuttler
+            client-secret: kcnwlBvVSPlT2Jbzce4LZuiAmLmQ0L76
+            scope: openid, profile, email
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/shuttler

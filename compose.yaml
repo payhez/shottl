@@ -43,7 +43,7 @@ services:
 
   keycloak:
     container_name: shuttler_keycloak
-    image: quay.io/keycloak/keycloak:26.1.2
+    image: quay.io/keycloak/keycloak:lastest
     command:
       - start-dev
       - --import-realm
