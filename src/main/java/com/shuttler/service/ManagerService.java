@@ -43,9 +43,7 @@ public class ManagerService {
         return managerRepository.delete(manager)
                 .doOnSuccess(unused ->
                     log.debug("The manager({}, {}) deleted successfully!", manager.getEmail(), manager.getPhoneNumber()))
-                .doOnError(ex -> {
-                    log.error("Manager could not be deleted due to: ", ex);
-                });
+                .doOnError(ex -> log.error("Manager could not be deleted due to: ", ex));
     }
 
     private void handleManagerSignupError(final Throwable ex) {
