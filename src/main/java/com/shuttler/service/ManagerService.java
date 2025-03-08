@@ -31,7 +31,7 @@ public class ManagerService {
 
         return managerRepository.save(manager)
                 .flatMap(savedManager ->
-                        keycloakService.createUserOnKeycloak(manager, password)
+                        keycloakService.createUserOnKeycloak(manager, password, "MANAGER")
                                 .onErrorMap(e -> {
                                     deleteManager(savedManager);
                                     return e;

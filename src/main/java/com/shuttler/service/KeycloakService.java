@@ -2,7 +2,7 @@ package com.shuttler.service;
 
 import com.shuttler.config.KeycloakConfig;
 import com.shuttler.exception.KeycloakException;
-import com.shuttler.model.Manager;
+import com.shuttler.model.User;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
@@ -34,21 +34,20 @@ public class KeycloakService {
     public KeycloakService(Keycloak keycloak) {
         this.keycloak = keycloak;
     }
-    // TODO create another model called User.. Bcz User and Person are different concepts
-    // TODO make this method generic(not only for manager) --> createUserOnKeycloak
-    public Mono<Void> createUserOnKeycloak(final Manager savedManager, final String password) {
+
+    public Mono<Void> createUserOnKeycloak(final User savedUser, final String password, final String role) {
         try {
             UserRepresentation user = new UserRepresentation();
             user.setEnabled(true);
-            user.setId(savedManager.getId());
-            user.setUsername(StringUtils.isNotEmpty(savedManager.getEmail()) ? savedManager.getEmail() : savedManager.getPhoneNumber());
-            user.setFirstName(savedManager.getFirstName());
-            user.setLastName(savedManager.getSurname());
-            user.setEmail(savedManager.getEmail());
+            user.setId(savedUser.getId());
+            user.setUsername(StringUtils.isNotEmpty(savedUser.getEmail()) ? savedUser.getEmail() : savedUser.getPhoneNumber());
+            user.setFirstName(savedUser.getFirstName());
+            user.setLastName(savedUser.getSurname());
+            user.setEmail(savedUser.getEmail());
             Response response = keycloak.realm(keycloakConfig.getRealm()).users().create(user);
             if (response.getStatus() != HttpStatus.CREATED.value()) {
                 log.error("User ({} {}) keycloak signup failed on user creation due to: {}!",
-                        savedManager.getEmail(), savedManager.getPhoneNumber(), response.getStatus());
+                        savedUser.getEmail(), savedUser.getPhoneNumber(), response.getStatus());
                 throw new KeycloakException(response.getStatusInfo().getReasonPhrase(), response.getStatus());
             }
 
@@ -66,16 +65,16 @@ public class KeycloakService {
                         .findByClientId(keycloakConfig.getUserClientId()).getFirst();
 
                 RoleRepresentation userClientRole = realmResource.clients().get(userClient.getId())
-                        .roles().get("MANAGER").toRepresentation();
+                        .roles().get(role).toRepresentation();
 
                 userResource.roles()
                         .clientLevel(userClient.getId()).add(Collections.singletonList(userClientRole));
             } catch (NotFoundException e) {
-                log.error("User ({} {})  creation failed!", savedManager.getEmail(), savedManager.getPhoneNumber(), e);
+                log.error("User ({} {})  creation failed!", savedUser.getEmail(), savedUser.getPhoneNumber(), e);
                 throw new KeycloakException("User creation failed!", HttpStatus.INTERNAL_SERVER_ERROR.value());
             } catch (BadRequestException e) {
                 log.warn("Password does not fit to the requirements for user ({} {}) ",
-                        savedManager.getEmail(), savedManager.getPhoneNumber(), e);
+                        savedUser.getEmail(), savedUser.getPhoneNumber(), e);
                 throw new KeycloakException("Password does not fit to the requirements!", HttpStatus.BAD_REQUEST.value());
             }
             return Mono.empty();
@@ -84,7 +83,7 @@ public class KeycloakService {
                 throw kce;
             }
             log.error("User ({} {}) keycloak signup failed due to: {} !",
-                    savedManager.getEmail(), savedManager.getPhoneNumber(), e.getMessage());
+                    savedUser.getEmail(), savedUser.getPhoneNumber(), e.getMessage());
             throw new KeycloakException(
                     "Signup failed due to: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
