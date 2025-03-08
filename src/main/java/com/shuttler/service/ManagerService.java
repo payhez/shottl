@@ -38,18 +38,9 @@ public class ManagerService {
                                 return e;
                             });
                 }).doOnError(this::handleManagerSignupError);
-
-        /*return managerRepository.save(manager)
-                .flatMap(savedManager ->
-                        keycloakService.createUserOnKeycloak(savedManager, password, "MANAGER")
-                                .onErrorMap(e -> {
-                                    deleteManager(savedManager);
-                                    return e;
-                                })
-                ).doOnError(this::handleManagerSignupError);*/
     }
 
-    private Mono<Void> deleteManager(final Manager manager) {
+    public Mono<Void> deleteManager(final Manager manager) {
         return managerRepository.delete(manager)
                 .doOnSuccess(unused ->
                     log.debug("The manager({}, {}) deleted successfully!", manager.getEmail(), manager.getPhoneNumber()))
@@ -66,7 +57,7 @@ public class ManagerService {
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error!", ex);
     }
 
-    private void disableManager(final Manager manager) {
+    public void disableManager(final Manager manager) {
         if (BooleanUtils.isTrue(manager.getActive())) {
             manager.setActive(false);
         } else {
