@@ -10,19 +10,30 @@ spring:
       client:
         registration:
           keycloak:
-            client-id: shuttler
-            client-secret: kcnwlBvVSPlT2Jbzce4LZuiAmLmQ0L76
-            scope: openid, profile, email
-            authorization-grant-type: client_credentials
+            client-id: user-client
+            client-secret: bUizCQj36GYeW5s4QfY12C1u7gOE3WyR
+            authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080
+            scope: openid, profile, email
+          keycloak-service:
+            client-id: server-client
+            client-secret: kcnwlBvVSPlT2Jbzce4LZuiAmLmQ0L76
+            scope: openid
+            authorization-grant-type: client_credentials
+            provider: keycloak
         provider:
           keycloak:
             issuer-uri: http://localhost:8081/realms/shuttler
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/shuttler
 keycloak:
   admin:
     serverUrl: http://localhost:8081
     realm: shuttler
+    userClientId: user-client
+    serverClientId: server-client
     adminUser: admin
     adminPassword: adminPass
-    clientId: admin-cli
+    adminClientId: admin-cli
     adminRealm: master

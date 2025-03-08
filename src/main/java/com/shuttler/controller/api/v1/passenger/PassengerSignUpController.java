@@ -32,7 +32,7 @@ public class PassengerSignUpController {
         ResponseEntity<?> responseEntity;
 
         organisationService.validateInvitationCode(request.getInvitationCode());
-        Passenger manager = Passenger.builder()
+        Passenger passenger = Passenger.builder()
                 .firstName(request.getFirstName())
                 .middleName(request.getMiddleName())
                 .surname(request.getLastName())

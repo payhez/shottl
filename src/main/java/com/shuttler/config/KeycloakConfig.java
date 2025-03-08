@@ -17,7 +17,9 @@ public class KeycloakConfig {
     private String adminRealm;
     private String adminUser;
     private String adminPassword;
-    private String clientId;
+    private String adminClientId;
+    private String userClientId;
+    private String serverClientId;
 
     @Bean
     public Keycloak setUpKeycloakRealm() {
@@ -26,7 +28,7 @@ public class KeycloakConfig {
                 .realm(adminRealm)
                 .username(adminUser)
                 .password(adminPassword)
-                .clientId(clientId)
+                .clientId(adminClientId)
                 .build();
     }
 }

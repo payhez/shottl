@@ -5,12 +5,17 @@ import com.shuttler.model.Organisation;
 import com.shuttler.service.OrganisationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Mono;
+
+import java.util.Collections;
 
 @RestController
 @Slf4j
@@ -18,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AddOrganizationController {
 
     @Autowired
-    OrganisationService organisationService;
+    private OrganisationService organisationService;
 
     @PostMapping("/add")
-    ResponseEntity<?> addOrganisation(@RequestBody AddOrganisationRequest request) {
+    Mono<ResponseEntity<String>> addOrganisation(@RequestBody AddOrganisationRequest request,
+                                                 @AuthenticationPrincipal Jwt jwt) {
+
         Organisation organisation =
                 Organisation.builder()
                         .organisationName(request.getName())
@@ -29,11 +36,13 @@ public class AddOrganizationController {
                         .geoLocation(request.getGeoLocation())
                         .organisationType(request.getOrganisationType())
                         .totalNumberOfPassengers(request.getTotalNumberOfPassengers())
+                        .managers(Collections.singletonList(jwt.getSubject()))
                         .build();
-        try {
-            return new ResponseEntity<>(organisationService.addOrganisation(organisation).block(), HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Organisation could not be added.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return organisationService.addOrganisation(organisation)
+                .thenReturn(ResponseEntity.ok("Organisation saved successfully."))
+                .onErrorResume(ResponseStatusException.class, e ->
+                        Mono.just(ResponseEntity.status(e.getStatusCode()).body(e.getReason()))
+                );
     }
 }
