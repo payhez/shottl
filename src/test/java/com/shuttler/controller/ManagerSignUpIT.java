@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shuttler.BaseTest;
 import com.shuttler.controller.request.ManagerSignUpRequest;
 import com.shuttler.dao.ManagerRepository;
-import com.shuttler.dao.OrganisationRepository;
 import com.shuttler.model.Manager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -81,7 +80,6 @@ public class ManagerSignUpIT extends BaseTest {
     }
 
     @Test
-    //@Ignore // TODO It fails for some reason.. The email and phoe number
     public void testManagerSignUp_Duplication_on_Email_and_PhoneNumber() throws Exception {
 
         Manager initialManager = Manager.builder()
@@ -128,6 +126,5 @@ public class ManagerSignUpIT extends BaseTest {
                         .andReturn().getAsyncResult(5000);
 
         Assertions.assertEquals(HttpStatus.CONFLICT, responseForDuplicatedPhoneNumber.getStatusCode());
-
     }
 }

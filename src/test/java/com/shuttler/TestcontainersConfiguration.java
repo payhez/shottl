@@ -5,14 +5,26 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
 class TestcontainersConfiguration {
 
 	static String KEYCLOAK_IMAGE = "quay.io/keycloak/keycloak:latest";
+
+	//@Container
+	//static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest").withExposedPorts(26016);
+//
+	//@DynamicPropertySource
+	//static void containersProperties(DynamicPropertyRegistry registry) {
+	//	registry.add("spring.data.mongodb.host", mongoDBContainer::getHost);
+	//	registry.add("spring.data.mongodb.port", mongoDBContainer::getFirstMappedPort);
+	//	registry.add("spring.data.mongodb.auto-index-creation", () -> "true");
+	//}
 
 	//@Bean
 	//@ServiceConnection
@@ -22,8 +34,11 @@ class TestcontainersConfiguration {
 
 	@Bean
 	@ServiceConnection
-	public MongoDBContainer mongoDBContainer() {
-		return new MongoDBContainer(DockerImageName.parse("mongo:latest"));
+	public MongoDBContainer mongoDBContainer(DynamicPropertyRegistry registry) {
+		MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:latest"));
+		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+		registry.add("spring.data.mongodb.auto-index-creation", () -> "true");
+		return mongoDBContainer;
 	}
 
 	@Bean
@@ -36,5 +51,4 @@ class TestcontainersConfiguration {
 		registry.add("keycloak.admin.serverUrl", keycloak::getAuthServerUrl);
 		return keycloak;
 	}
-
 }

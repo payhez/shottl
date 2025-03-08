@@ -1,7 +1,10 @@
 package com.shuttler;
 
+import com.mongodb.client.MongoDatabase;
 import com.shuttler.config.KeycloakConfig;
+import com.shuttler.config.TestSecurityConfig;
 import dasniko.testcontainers.keycloak.KeycloakContainer;
+import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -15,7 +18,7 @@ import javax.annotation.PostConstruct;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Import(TestcontainersConfiguration.class)
+@Import({TestcontainersConfiguration.class, TestSecurityConfig.class})
 public abstract class BaseTest {
 
     @Autowired
@@ -35,17 +38,19 @@ public abstract class BaseTest {
             keycloak = KeycloakBuilder.builder()
                     .serverUrl(keycloakContainer.getAuthServerUrl())
                     .realm(keycloakConfig.getAdminRealm())
-                    .clientId(keycloakConfig.getClientId())
+                    .clientId(keycloakConfig.getAdminClientId())
                     .username(keycloakConfig.getAdminUser())
                     .password(keycloakConfig.getAdminPassword())
                     .build();
         }
     }
 
-
     @AfterEach
     public void clearDatabase() {
-        mongoTemplate.getDb().drop();
+        MongoDatabase db = mongoTemplate.getDb();
+        db.listCollectionNames().forEach(colName -> {
+            db.getCollection(colName).deleteMany(new Document());
+        });
     }
 
     @AfterEach

@@ -1,13 +1,10 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/test
-      auto-index-creation: true
 keycloak:
   admin:
     #serverUrl: http://localhost:8081
     realm: shuttler
+    userClientId: user-client
+    serverClientId: server-client
     adminUser: admin
     adminPassword: adminPass
-    clientId: admin-cli
+    adminClientId: admin-cli
     adminRealm: master
