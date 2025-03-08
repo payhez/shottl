@@ -23,20 +23,30 @@ public class ManagerService {
     @Autowired
     private KeycloakService keycloakService;
 
-    public Mono<Void> addManager(final Manager manager, final String password) {
+    public Mono<Manager> addManager(final Manager manager, final String password) {
         if (!hasAtLeastOneCommunicationChannel(manager)) {
             log.warn("No communication channel is provided for manager: {} {}!", manager.getFirstName(), manager.getSurname());
             return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "No communication channel is provided!"));
         }
 
-        return managerRepository.save(manager)
+        return keycloakService.createUserOnKeycloak(manager, password, "MANAGER")
+                .flatMap(userId -> {
+                    manager.setId(userId);
+                    return managerRepository.save(manager)
+                            .onErrorMap(e -> {
+                                keycloakService.deleteUser(userId);
+                                return e;
+                            });
+                }).doOnError(this::handleManagerSignupError);
+
+        /*return managerRepository.save(manager)
                 .flatMap(savedManager ->
-                        keycloakService.createUserOnKeycloak(manager, password, "MANAGER")
+                        keycloakService.createUserOnKeycloak(savedManager, password, "MANAGER")
                                 .onErrorMap(e -> {
                                     deleteManager(savedManager);
                                     return e;
                                 })
-                ).doOnError(this::handleManagerSignupError);
+                ).doOnError(this::handleManagerSignupError);*/
     }
 
     private Mono<Void> deleteManager(final Manager manager) {
@@ -64,7 +74,7 @@ public class ManagerService {
         }
         managerRepository.save(manager)
                 .doOnSuccess(unused ->
-                        log.debug("The manager({}, {}) disabled successfully!", manager.getEmail(), manager.getPhoneNumber()))
+                    log.debug("The manager({}, {}) disabled successfully!", manager.getEmail(), manager.getPhoneNumber()))
                 .doOnError(ex -> {
                     log.error("Manager could not be disabled due to: ", ex);
                 }).subscribe();
