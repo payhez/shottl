@@ -5,13 +5,14 @@ import com.shuttler.exception.KeycloakException;
 import com.shuttler.model.Manager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
+
+import static com.shuttler.utils.UserUtils.hasAtLeastOneCommunicationChannel;
 
 @Service
 @Slf4j
@@ -69,9 +70,5 @@ public class ManagerService {
                 .doOnError(ex -> {
                     log.error("Manager could not be disabled due to: ", ex);
                 }).subscribe();
-    }
-
-    private boolean hasAtLeastOneCommunicationChannel(final Manager manager) {
-        return BooleanUtils.isFalse(StringUtils.isBlank(manager.getEmail()) && StringUtils.isBlank(manager.getPhoneNumber()));
     }
  }
