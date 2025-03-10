@@ -1,12 +1,10 @@
 package com.shuttler.service;
 
 import com.shuttler.dao.ManagerRepository;
-import com.shuttler.exception.KeycloakException;
 import com.shuttler.model.Manager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +22,9 @@ public class ManagerService {
     @Autowired
     private KeycloakService keycloakService;
 
+    @Autowired
+    private ServiceHelper serviceHelper;
+
     public Mono<Manager> addManager(final Manager manager, final String password) {
         if (!hasAtLeastOneCommunicationChannel(manager)) {
             log.warn("No communication channel is provided for manager: {} {}!", manager.getFirstName(), manager.getSurname());
@@ -38,7 +39,7 @@ public class ManagerService {
                                 keycloakService.deleteUser(userId);
                                 return e;
                             });
-                }).doOnError(this::handleManagerSignupError);
+                }).doOnError(e -> serviceHelper.handleUserSignupError(e));
     }
 
     public Mono<Void> deleteManager(final Manager manager) {
@@ -46,16 +47,6 @@ public class ManagerService {
                 .doOnSuccess(unused ->
                     log.debug("The manager({}, {}) deleted successfully!", manager.getEmail(), manager.getPhoneNumber()))
                 .doOnError(ex -> log.error("Manager could not be deleted due to: ", ex));
-    }
-
-    private void handleManagerSignupError(final Throwable ex) {
-        log.error("Manager could not be added due to: ", ex);
-        if (ex instanceof DuplicateKeyException) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "The communication channel already exists!");
-        } else if (ex instanceof KeycloakException kce) {
-            throw new ResponseStatusException(HttpStatus.valueOf(kce.getHttpStatus()), kce.getMessage());
-        }
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error!", ex);
     }
 
     public void disableManager(final Manager manager) {

@@ -36,6 +36,7 @@ public class AddOrganizationController {
                         .geoLocation(request.getGeoLocation())
                         .organisationType(request.getOrganisationType())
                         .totalNumberOfPassengers(request.getTotalNumberOfPassengers())
+                        .activeNumberOfPassengers(0)
                         .managers(Collections.singletonList(jwt.getSubject()))
                         .build();
 

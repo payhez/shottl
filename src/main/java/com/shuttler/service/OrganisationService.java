@@ -6,12 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,14 +31,13 @@ public class OrganisationService {
         });
     }
 
-    public Optional<ResponseEntity<String>> validateInvitationCode(final String invitationCode) {
+    public Mono<Organisation> validateInvitationCode(final String invitationCode) {
         return organisationRepository.findByInvitationCode(invitationCode)
                 .map(organisation -> {
-                            if (organisation.getTotalNumberOfPassengers() <= organisation.getActiveNumberOfPassengers() ) {
-                                return new ResponseEntity<>("No more passengers allowed.", HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS);
-                            }
-                            return null;
-                        })
-                .or(() -> Optional.of(new ResponseEntity<>("Invitation code is wrong!", HttpStatus.NOT_ACCEPTABLE)));
+                        if (organisation.getTotalNumberOfPassengers() <= organisation.getActiveNumberOfPassengers() ) {
+                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No more passengers allowed.");
+                    }
+                    return organisation;
+                }).switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organisation not found!")));
     }
 }

@@ -14,5 +14,5 @@ public class PassengerSignUpRequest {
     private String email;
     private String phoneNumber;
     private Point location;
-
+    private String password;
 }
