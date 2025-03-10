@@ -78,15 +78,7 @@
       "attributes" : { }
     } ],
     "client" : {
-      "server-client" : [ {
-        "id" : "72905e5e-888c-455f-8e4b-69dd6225fb44",
-        "name" : "MANAGER",
-        "description" : "",
-        "composite" : false,
-        "clientRole" : true,
-        "containerId" : "8570b640-8b52-4ee5-b0b7-2be8ee5118da",
-        "attributes" : { }
-      } ],
+      "server-client" : [ ],
       "realm-management" : [ {
         "id" : "8a069e49-f0b8-45ec-a62b-bd72cdfeda9f",
         "name" : "view-realm",
@@ -258,8 +250,56 @@
       "security-admin-console" : [ ],
       "admin-cli" : [ ],
       "user-client" : [ {
+        "id" : "c0b4cc69-39e7-4640-9b31-17ef90f72479",
+        "name" : "ADMIN",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "31208aae-3aa3-4839-b992-b35c26526aaa",
+        "name" : "DEVELOPER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
         "id" : "e24c4300-ea47-4d49-8a8d-3996843a975f",
         "name" : "MANAGER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "bf727a48-1a4f-4198-924f-8bb779020703",
+        "name" : "PASSENGER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "82cd4552-ff5a-4c7f-a5fd-e33d5995e37b",
+        "name" : "DRIVER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "c4d7c6c7-d93b-4c0f-9298-1562a7d47487",
+        "name" : "SECOND_LEVEL_SUPPORT",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "2f852814-f0e5-4ac1-8cbc-3c6f17ca6818",
+        "name" : "FIRST_LEVEL_SUPPORT",
         "description" : "",
         "composite" : false,
         "clientRole" : true,

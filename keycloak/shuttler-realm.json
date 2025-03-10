@@ -78,6 +78,7 @@
       "attributes" : { }
     } ],
     "client" : {
+      "server-client" : [ ],
       "realm-management" : [ {
         "id" : "8a069e49-f0b8-45ec-a62b-bd72cdfeda9f",
         "name" : "view-realm",
@@ -247,8 +248,64 @@
         "attributes" : { }
       } ],
       "security-admin-console" : [ ],
-      "shuttler" : [ ],
       "admin-cli" : [ ],
+      "user-client" : [ {
+        "id" : "c0b4cc69-39e7-4640-9b31-17ef90f72479",
+        "name" : "ADMIN",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "31208aae-3aa3-4839-b992-b35c26526aaa",
+        "name" : "DEVELOPER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "e24c4300-ea47-4d49-8a8d-3996843a975f",
+        "name" : "MANAGER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "bf727a48-1a4f-4198-924f-8bb779020703",
+        "name" : "PASSENGER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "82cd4552-ff5a-4c7f-a5fd-e33d5995e37b",
+        "name" : "DRIVER",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "c4d7c6c7-d93b-4c0f-9298-1562a7d47487",
+        "name" : "SECOND_LEVEL_SUPPORT",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      }, {
+        "id" : "2f852814-f0e5-4ac1-8cbc-3c6f17ca6818",
+        "name" : "FIRST_LEVEL_SUPPORT",
+        "description" : "",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+        "attributes" : { }
+      } ],
       "account-console" : [ ],
       "broker" : [ {
         "id" : "31563302-62bb-4af1-b041-28bc2d5dc212",
@@ -378,21 +435,6 @@
   "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister" : false,
   "webAuthnPolicyPasswordlessAcceptableAaguids" : [ ],
   "webAuthnPolicyPasswordlessExtraOrigins" : [ ],
-  "users" : [ {
-    "id" : "d81079bb-883c-4f10-954e-e12104124ad0",
-    "username" : "service-account-shuttler",
-    "emailVerified" : false,
-    "createdTimestamp" : 1740260829674,
-    "enabled" : true,
-    "totp" : false,
-    "serviceAccountClientId" : "shuttler",
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-shuttler" ],
-    "notBefore" : 0,
-    "groups" : [ ]
-  } ],
   "scopeMappings" : [ {
     "clientScope" : "offline_access",
     "roles" : [ "offline_access" ]
@@ -610,8 +652,8 @@
     "optionalClientScopes" : [ "address", "phone", "organization", "offline_access", "microprofile-jwt" ]
   }, {
     "id" : "8570b640-8b52-4ee5-b0b7-2be8ee5118da",
-    "clientId" : "shuttler",
-    "name" : "shuttler-app",
+    "clientId" : "server-client",
+    "name" : "",
     "description" : "",
     "rootUrl" : "http://localhost:8080",
     "adminUrl" : "http://localhost:8080",
@@ -626,8 +668,8 @@
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
-    "standardFlowEnabled" : true,
-    "implicitFlowEnabled" : true,
+    "standardFlowEnabled" : false,
+    "implicitFlowEnabled" : false,
     "directAccessGrantsEnabled" : true,
     "serviceAccountsEnabled" : true,
     "publicClient" : false,
@@ -640,7 +682,7 @@
       "backchannel.logout.session.required" : "true",
       "post.logout.redirect.uris" : "http://localhost:8080",
       "display.on.consent.screen" : "false",
-      "oauth2.device.authorization.grant.enabled" : "true",
+      "oauth2.device.authorization.grant.enabled" : "false",
       "use.jwks.url" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false"
     },
@@ -690,6 +732,54 @@
         "jsonType.label" : "String"
       }
     } ],
+    "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "basic", "email" ],
+    "optionalClientScopes" : [ "address", "phone", "organization", "offline_access", "microprofile-jwt" ]
+  }, {
+    "id" : "4499ef42-8982-40e9-a197-9d7d2a4141e7",
+    "clientId" : "user-client",
+    "name" : "",
+    "description" : "Client for users",
+    "rootUrl" : "http://localhost:8080",
+    "adminUrl" : "http://localhost:8080",
+    "baseUrl" : "",
+    "surrogateAuthRequired" : false,
+    "enabled" : true,
+    "alwaysDisplayInConsole" : false,
+    "clientAuthenticatorType" : "client-secret",
+    "secret" : "bUizCQj36GYeW5s4QfY12C1u7gOE3WyR",
+    "redirectUris" : [ "http://localhost:8080/*" ],
+    "webOrigins" : [ "http://localhost:8080" ],
+    "notBefore" : 0,
+    "bearerOnly" : false,
+    "consentRequired" : false,
+    "standardFlowEnabled" : true,
+    "implicitFlowEnabled" : false,
+    "directAccessGrantsEnabled" : false,
+    "serviceAccountsEnabled" : false,
+    "publicClient" : false,
+    "frontchannelLogout" : true,
+    "protocol" : "openid-connect",
+    "attributes" : {
+      "client.secret.creation.time" : "1741379876",
+      "client.introspection.response.allow.jwt.claim.enabled" : "false",
+      "oauth2.device.authorization.grant.enabled" : "true",
+      "use.jwks.url" : "false",
+      "backchannel.logout.revoke.offline.tokens" : "false",
+      "use.refresh.tokens" : "true",
+      "realm_client" : "false",
+      "oidc.ciba.grant.enabled" : "true",
+      "client.use.lightweight.access.token.enabled" : "false",
+      "backchannel.logout.session.required" : "true",
+      "client_credentials.use_refresh_token" : "false",
+      "acr.loa.map" : "{}",
+      "require.pushed.authorization.requests" : "false",
+      "tls.client.certificate.bound.access.tokens" : "false",
+      "display.on.consent.screen" : "false",
+      "token.response.type.bearer.lower-case" : "false"
+    },
+    "authenticationFlowBindingOverrides" : { },
+    "fullScopeAllowed" : true,
+    "nodeReRegistrationTimeout" : -1,
     "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "basic", "email" ],
     "optionalClientScopes" : [ "address", "phone", "organization", "offline_access", "microprofile-jwt" ]
   } ],

@@ -53,7 +53,7 @@ public class OrganisationAdditionIT extends BaseTest {
                 .organisationType(OrganisationType.SCHOOL).build();
 
         ResponseEntity<?> response = (ResponseEntity<?>) mockMvc.perform(post(URL_TEMPLATE)
-                        .with(jwt().jwt(jwt -> jwt.subject("test-user")))
+                        .with(jwt().jwt(jwt -> jwt.subject("test-manager")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().is2xxSuccessful())
