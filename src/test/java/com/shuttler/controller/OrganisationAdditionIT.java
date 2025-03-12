@@ -5,6 +5,7 @@ import com.shuttler.BaseTest;
 import com.shuttler.controller.request.AddOrganisationRequest;
 import com.shuttler.dao.OrganisationRepository;
 import com.shuttler.model.Address;
+import com.shuttler.model.Organisation;
 import com.shuttler.model.enums.OrganisationType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -65,6 +66,38 @@ public class OrganisationAdditionIT extends BaseTest {
                 .expectNextMatches(Objects::nonNull)
                 .expectComplete()
                 .verify();
+    }
+
+    @Test
+    public void testOrganisationSignUp_Duplication() throws Exception {
+
+        Organisation mockOrg = Organisation.builder()
+                        .organisationType(OrganisationType.COMPANY)
+                                .organisationName("Test Organisation")
+                                        .build();
+
+        organisationRepository.save(mockOrg).subscribe();
+
+        Address address = Address.builder()
+                .alley("The Alley")
+                .city("The City")
+                .postalCode("264").build();
+
+        AddOrganisationRequest request = AddOrganisationRequest.builder()
+                .name("Test Organisation")
+                .address(address)
+                .totalNumberOfPassengers(10)
+                .geoLocation(new Point(25.5, 78.9))
+                .organisationType(OrganisationType.SCHOOL).build();
+
+        ResponseEntity<?> response = (ResponseEntity<?>) mockMvc.perform(post(URL_TEMPLATE)
+                        .with(jwt().jwt(jwt -> jwt.subject("test-manager")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn().getAsyncResult(5000);
+
+        Assertions.assertEquals("Organisation saved successfully.", response.getBody());
     }
 
     // TODO Add in case the request not coming from a manager
