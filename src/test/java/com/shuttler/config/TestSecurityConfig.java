@@ -19,6 +19,7 @@ public class TestSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         return http.build();
     }
+
     @Bean
     public JwtDecoder jwtDecoder() {
         return token -> Jwt.withTokenValue(token)
@@ -28,5 +29,4 @@ public class TestSecurityConfig {
                 .expiresAt(Instant.now().plusSeconds(3600))
                 .build();
     }
-
 }

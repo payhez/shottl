@@ -101,5 +101,4 @@ public class OrganisationAdditionIT extends BaseTest {
     }
 
     // TODO Add in case the request not coming from a manager
-    // TODO Add duplication2
 }
