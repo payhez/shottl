@@ -99,6 +99,4 @@ public class OrganisationAdditionIT extends BaseTest {
 
         Assertions.assertEquals("Organisation saved successfully.", response.getBody());
     }
-
-    // TODO Add in case the request not coming from a manager
 }
