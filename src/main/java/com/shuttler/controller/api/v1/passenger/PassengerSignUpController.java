@@ -42,7 +42,7 @@ public class PassengerSignUpController {
                     Passenger passenger = Passenger.builder()
                             .firstName(request.getFirstName())
                             .middleName(request.getMiddleName())
-                            .surname(request.getLastName())
+                            .lastName(request.getLastName())
                             .email(request.getEmail())
                             .phoneNumber(request.getPhoneNumber())
                             .signUpDate(new Date())

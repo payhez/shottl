@@ -29,7 +29,8 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         // TODO Enable csrf
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize  -> {
-            authorize.requestMatchers(HttpMethod.POST,
+            authorize.requestMatchers(
+                    "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs.yaml",
                             VERSION_ONE_BASE_PREFIX + "/manager/signup",
                             VERSION_ONE_BASE_PREFIX + "/passenger/signup"
                     ).permitAll();

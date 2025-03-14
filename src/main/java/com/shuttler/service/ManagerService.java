@@ -27,7 +27,7 @@ public class ManagerService {
 
     public Mono<Manager> addManager(final Manager manager, final String password) {
         if (!hasAtLeastOneCommunicationChannel(manager)) {
-            log.warn("No communication channel is provided for manager: {} {}!", manager.getFirstName(), manager.getSurname());
+            log.warn("No communication channel is provided for manager: {} {}!", manager.getFirstName(), manager.getLastName());
             return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "No communication channel is provided!"));
         }
 

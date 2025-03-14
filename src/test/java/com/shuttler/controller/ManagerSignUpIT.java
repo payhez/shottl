@@ -85,7 +85,7 @@ public class ManagerSignUpIT extends BaseTest {
         Manager initialManager = Manager.builder()
                                     .firstName("TheName")
                                     .middleName("TheMiddleName")
-                                    .surname("TheSurname")
+                                    .lastName("TheSurname")
                                     .email("test@test.com")
                                     .phoneNumber("051353342")
                                     .build();

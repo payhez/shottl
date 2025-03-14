@@ -18,7 +18,7 @@ public class User {
 
     private String firstName;
     private String middleName;
-    private String surname;
+    private String lastName;
     private Date birthDate;
     private Address address;
     private Point geoLocation;

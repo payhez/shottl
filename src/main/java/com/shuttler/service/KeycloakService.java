@@ -42,7 +42,7 @@ public class KeycloakService {
             user.setEnabled(true);
             user.setUsername(StringUtils.isNotEmpty(savedUser.getEmail()) ? savedUser.getEmail() : savedUser.getPhoneNumber());
             user.setFirstName(savedUser.getFirstName());
-            user.setLastName(savedUser.getSurname());
+            user.setLastName(savedUser.getLastName());
             user.setEmail(savedUser.getEmail());
             Response response = keycloak.realm(keycloakConfig.getRealm()).users().create(user);
             if (response.getStatus() == HttpStatus.CONFLICT.value()) {

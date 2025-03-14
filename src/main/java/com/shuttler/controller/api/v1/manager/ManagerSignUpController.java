@@ -28,7 +28,7 @@ public class ManagerSignUpController {
         Manager manager = Manager.builder()
                 .firstName(request.getFirstName())
                 .middleName(request.getMiddleName())
-                .surname(request.getLastName())
+                .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .signUpDate(new Date())
