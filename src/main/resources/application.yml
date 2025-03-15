@@ -1,9 +1,9 @@
 spring:
   application:
-    name: shuttler
+    name: moush
   data:
     mongodb:
-      uri: mongodb://localhost:27017,localhost:27018,localhost:27019/shuttler?replicaSet=rs0
+      uri: mongodb://localhost:27017,localhost:27018,localhost:27019/moush?replicaSet=rs0
       auto-index-creation: true
   security:
     oauth2:
@@ -23,14 +23,14 @@ spring:
             provider: keycloak
         provider:
           keycloak:
-            issuer-uri: http://localhost:8081/realms/shuttler
+            issuer-uri: http://localhost:8081/realms/moush
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/shuttler
+          issuer-uri: http://localhost:8081/realms/moush
 keycloak:
   admin:
     serverUrl: http://localhost:8081
-    realm: shuttler
+    realm: moush
     userClientId: user-client
     serverClientId: server-client
     adminUser: admin

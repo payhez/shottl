@@ -8,11 +8,11 @@
 		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.shuttler</groupId>
-	<artifactId>shuttler</artifactId>
+	<groupId>com.moush</groupId>
+	<artifactId>moush</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>shuttler</name>
-	<description>Shuttler Microservice</description>
+	<name>moush</name>
+	<description>Moush Microservice</description>
 	<url/>
 	<licenses>
 		<license/>

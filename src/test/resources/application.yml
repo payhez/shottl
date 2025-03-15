@@ -1,7 +1,7 @@
 keycloak:
   admin:
     #serverUrl: http://localhost:8081
-    realm: shuttler
+    realm: moush
     userClientId: user-client
     serverClientId: server-client
     adminUser: admin
