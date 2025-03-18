@@ -42,7 +42,7 @@ public class ManagerService {
                 }).doOnError(e -> serviceHelper.handleUserSignupError(e));
     }
 
-    /*public Mono<Void> deleteManager(final Manager manager) {
+    public Mono<Void> deleteManager(final Manager manager) {
         return managerRepository.delete(manager)
                 .doOnSuccess(unused ->
                     log.debug("The manager({}, {}) deleted successfully!", manager.getEmail(), manager.getPhoneNumber()))
@@ -61,5 +61,5 @@ public class ManagerService {
                 .doOnError(ex -> {
                     log.error("Manager could not be disabled due to: ", ex);
                 }).subscribe();
-    }*/
+    }
  }
