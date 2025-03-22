@@ -55,7 +55,7 @@ services:
       - "5432:5432"
 
   keycloak:
-    container_name: moush_keycloak
+    container_name: shottl_keycloak
     image: quay.io/keycloak/keycloak:latest
     command:
       - start-dev
