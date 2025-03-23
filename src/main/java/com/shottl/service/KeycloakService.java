@@ -38,23 +38,7 @@ public class KeycloakService {
     public Mono<String> createUserOnKeycloak(final User savedUser, final String password, final String role) {
         String userId;
         try {
-            UserRepresentation user = new UserRepresentation();
-            user.setEnabled(true);
-            user.setUsername(StringUtils.isNotEmpty(savedUser.getEmail()) ? savedUser.getEmail() : savedUser.getPhoneNumber());
-            user.setFirstName(savedUser.getFirstName());
-            user.setLastName(savedUser.getLastName());
-            user.setEmail(savedUser.getEmail());
-            Response response = keycloak.realm(keycloakConfig.getRealm()).users().create(user);
-            if (response.getStatus() == HttpStatus.CONFLICT.value()) {
-                log.warn("User({}) already exists.", user.getUsername());
-                throw new KeycloakException(String.format("User(%s) already exists.", user.getUsername()), response.getStatus());
-            } else if (response.getStatus() != HttpStatus.CREATED.value()) {
-                log.error("User ({} {}) keycloak signup failed on user creation due to: {}!",
-                        savedUser.getEmail(), savedUser.getPhoneNumber(), response.getStatus());
-                throw new KeycloakException(response.getStatusInfo().getReasonPhrase(), response.getStatus());
-            }
-
-            userId = CreatedResponseUtil.getCreatedId(response);
+            userId = createUser(savedUser);
 
             CredentialRepresentation passwordCred = new CredentialRepresentation();
             passwordCred.setTemporary(false);
@@ -78,7 +62,8 @@ public class KeycloakService {
             } catch (BadRequestException e) {
                 log.warn("Password does not fit to the requirements for user ({} {}) ",
                         savedUser.getEmail(), savedUser.getPhoneNumber(), e);
-                throw new KeycloakException("Password does not fit to the requirements!", HttpStatus.BAD_REQUEST.value());
+                throw new KeycloakException("Password does not fit to the requirements!",
+                        HttpStatus.BAD_REQUEST.value());
             }
             return Mono.just(userId);
         } catch (Exception e) {
@@ -104,5 +89,27 @@ public class KeycloakService {
         } catch (Exception e) {
             log.error("User could not be removed!", e);
         }
+    }
+
+    private String createUser(final User savedUser) {
+        UserRepresentation user = new UserRepresentation();
+        user.setEnabled(true);
+        user.setUsername(
+                StringUtils.isNotEmpty(savedUser.getEmail()) ? savedUser.getEmail() : savedUser.getPhoneNumber());
+        user.setFirstName(savedUser.getFirstName());
+        user.setLastName(savedUser.getLastName());
+        user.setEmail(savedUser.getEmail());
+        Response response = keycloak.realm(keycloakConfig.getRealm()).users().create(user);
+        if (response.getStatus() == HttpStatus.CONFLICT.value()) {
+            log.warn("User({}) already exists.", user.getUsername());
+            throw new KeycloakException(String.format("User(%s) already exists.", user.getUsername()),
+                    response.getStatus());
+        } else if (response.getStatus() != HttpStatus.CREATED.value()) {
+            log.error("User ({} {}) keycloak signup failed on user creation due to: {}!",
+                    savedUser.getEmail(), savedUser.getPhoneNumber(), response.getStatus());
+            throw new KeycloakException(response.getStatusInfo().getReasonPhrase(), response.getStatus());
+        }
+
+        return CreatedResponseUtil.getCreatedId(response);
     }
 }

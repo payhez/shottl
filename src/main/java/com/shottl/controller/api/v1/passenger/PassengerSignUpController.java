@@ -33,8 +33,11 @@ public class PassengerSignUpController {
     Mono<ResponseEntity<String>> signUpPassenger(@RequestBody PassengerSignUpRequest request) {
 
         if (!UserUtils.isUUID(request.getInvitationCode())) {
-            return Mono.just(ResponseEntity.badRequest()
-                    .body(StringUtils.isBlank(request.getInvitationCode()) ? "Invitation code required" : "Invalid code."));
+            return Mono.just(
+                    ResponseEntity.badRequest().body(
+                        StringUtils.isBlank(request.getInvitationCode()) ? "Invitation code required" : "Invalid code."
+                    )
+            );
         }
 
         return organisationService.validateInvitationCode(request.getInvitationCode()).

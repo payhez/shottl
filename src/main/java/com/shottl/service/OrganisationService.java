@@ -27,17 +27,21 @@ public class OrganisationService {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "The organisation already exists!");
             }
             log.error("Organisation({}) could no be added!", organisation.getOrganisationName(), ex);
-            return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Organisation could no be added!"));
+            return Mono.error(
+                    new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Organisation could no be added!")
+            );
         });
     }
 
     public Mono<Organisation> validateInvitationCode(final String invitationCode) {
         return organisationRepository.findByInvitationCode(invitationCode)
                 .map(organisation -> {
-                        if (organisation.getTotalNumberOfPassengers() <= organisation.getActiveNumberOfPassengers() ) {
+                    if (organisation.getTotalNumberOfPassengers() <= organisation.getActiveNumberOfPassengers()) {
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No more passengers allowed.");
                     }
                     return organisation;
-                }).switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organisation not found!")));
+                }).switchIfEmpty(
+                        Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organisation not found!"))
+                );
     }
 }

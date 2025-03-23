@@ -34,7 +34,7 @@ public class SecurityConfig {
                             VERSION_ONE_BASE_PREFIX + "/manager/signup",
                             VERSION_ONE_BASE_PREFIX + "/passenger/signup"
                     ).permitAll();
-            authorize.requestMatchers(HttpMethod.POST,VERSION_ONE_BASE_PREFIX + "/organisation/add")
+            authorize.requestMatchers(HttpMethod.POST, VERSION_ONE_BASE_PREFIX + "/organisation/add")
                     .hasRole("MANAGER");
             authorize.anyRequest().denyAll();
 
@@ -69,7 +69,8 @@ public class SecurityConfig {
 
             Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
             if (resourceAccess != null) {
-                Map<String, Object> clientRoles = (Map<String, Object>) resourceAccess.get(keycloakConfig.getUserClientId());
+                Map<String, Object> clientRoles =
+                        (Map<String, Object>) resourceAccess.get(keycloakConfig.getUserClientId());
                 if (clientRoles != null && clientRoles.containsKey("roles")) {
                     List<String> roles = (List<String>) clientRoles.get("roles");
                     roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));

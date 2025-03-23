@@ -27,8 +27,11 @@ public class ManagerService {
 
     public Mono<Manager> addManager(final Manager manager, final String password) {
         if (!hasAtLeastOneCommunicationChannel(manager)) {
-            log.warn("No communication channel is provided for manager: {} {}!", manager.getFirstName(), manager.getLastName());
-            return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "No communication channel is provided!"));
+            log.warn("No communication channel is provided for manager: {} {}!",
+                    manager.getFirstName(), manager.getLastName());
+            return Mono.error(
+                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "No communication channel is provided!")
+            );
         }
 
         return keycloakService.createUserOnKeycloak(manager, password, "MANAGER")
@@ -45,7 +48,8 @@ public class ManagerService {
     public Mono<Void> deleteManager(final Manager manager) {
         return managerRepository.delete(manager)
                 .doOnSuccess(unused ->
-                    log.debug("The manager({}, {}) deleted successfully!", manager.getEmail(), manager.getPhoneNumber()))
+                    log.debug("The manager({}, {}) deleted successfully!", manager.getEmail(), manager.getPhoneNumber())
+                )
                 .doOnError(ex -> log.error("Manager could not be deleted due to: ", ex));
     }
 
@@ -57,9 +61,11 @@ public class ManagerService {
         }
         managerRepository.save(manager)
                 .doOnSuccess(unused ->
-                    log.debug("The manager({}, {}) disabled successfully!", manager.getEmail(), manager.getPhoneNumber()))
+                    log.debug("The manager({}, {}) disabled successfully!",
+                            manager.getEmail(), manager.getPhoneNumber())
+                )
                 .doOnError(ex -> {
                     log.error("Manager could not be disabled due to: ", ex);
                 }).subscribe();
     }
- }
+}

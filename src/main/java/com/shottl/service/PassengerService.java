@@ -34,8 +34,11 @@ public class PassengerService {
                                         final String password) {
 
         if (!hasAtLeastOneCommunicationChannel(passenger)) {
-            log.warn("No communication channel is provided for passenger: {} {}!", passenger.getFirstName(), passenger.getLastName());
-            return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "No communication channel is provided!"));
+            log.warn("No communication channel is provided for passenger: {} {}!",
+                    passenger.getFirstName(), passenger.getLastName());
+            return Mono.error(
+                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "No communication channel is provided!")
+            );
         }
 
         return keycloakService.createUserOnKeycloak(passenger, password, "PASSENGER")
