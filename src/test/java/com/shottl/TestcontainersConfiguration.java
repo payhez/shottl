@@ -43,7 +43,7 @@ class TestcontainersConfiguration {
 		var keycloak = new KeycloakContainer(KEYCLOAK_IMAGE)
 				.withEnv("KC_BOOTSTRAP_ADMIN_USERNAME", "admin")
 				.withEnv("KC_BOOTSTRAP_ADMIN_PASSWORD", "adminPass")
-				.withRealmImportFile("../keycloak/shottl-realm.json")
+				.withRealmImportFile("shottl-realm.json")
 				.withReuse(true);
 		registry.add("keycloak.admin.serverUrl", keycloak::getAuthServerUrl);
 		return keycloak;
