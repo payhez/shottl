@@ -1,4 +1,0 @@
-- Will the drivers, passengers and other potential users other than managers be able to sign up with third party credentials(Google and Apple)?
-- Maybe consider switching to PostgreSQL?
-- How will drivers sign up?
-- How to make UI prettier?
