@@ -25,7 +25,7 @@ public class ManagerService {
     @Autowired
     private ServiceHelper serviceHelper;
 
-    public Mono<Manager> addManager(final Manager manager, final String password) {
+    public Mono<Void> addManager(final Manager manager, final String password) {
         if (!hasAtLeastOneCommunicationChannel(manager)) {
             log.warn("No communication channel is provided for manager: {} {}!",
                     manager.getFirstName(), manager.getLastName());
@@ -38,6 +38,7 @@ public class ManagerService {
                 .flatMap(userId -> {
                     manager.setId(userId);
                     return managerRepository.save(manager)
+                            .then()
                             .onErrorMap(e -> {
                                 keycloakService.deleteUser(userId);
                                 return e;
