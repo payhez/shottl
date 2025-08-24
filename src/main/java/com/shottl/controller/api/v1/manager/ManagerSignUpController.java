@@ -3,8 +3,8 @@ package com.shottl.controller.api.v1.manager;
 import com.shottl.controller.request.ManagerSignUpRequest;
 import com.shottl.model.Manager;
 import com.shottl.service.ManagerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +18,10 @@ import java.util.Date;
 @RestController
 @Slf4j
 @RequestMapping
+@RequiredArgsConstructor
 public class ManagerSignUpController {
 
-    @Autowired
-    ManagerService managerService;
+    private final ManagerService managerService;
 
     @PostMapping("/signup")
     Mono<ResponseEntity<String>> signUpManager(@RequestBody ManagerSignUpRequest request) {
@@ -36,8 +36,7 @@ public class ManagerSignUpController {
 
         return managerService.addManager(manager, request.getPassword())
                 .thenReturn(ResponseEntity.ok("Manager saved successfully."))
-                .onErrorResume(ResponseStatusException.class, e ->
-                        Mono.just(ResponseEntity.status(e.getStatusCode()).body(e.getReason()))
-                );
+                .onErrorResume(ResponseStatusException.class,
+                        e -> Mono.just(ResponseEntity.status(e.getStatusCode()).body(e.getReason())));
     }
 }
