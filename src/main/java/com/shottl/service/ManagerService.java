@@ -2,6 +2,7 @@ package com.shottl.service;
 
 import com.shottl.dao.ManagerRepository;
 import com.shottl.model.Manager;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,11 @@ import static com.shottl.utils.UserUtils.hasAtLeastOneCommunicationChannel;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ManagerService {
 
-    @Autowired
     private ManagerRepository managerRepository;
-
-    @Autowired
     private KeycloakService keycloakService;
-
-    @Autowired
     private ServiceHelper serviceHelper;
 
     public Mono<Void> addManager(final Manager manager, final String password) {
