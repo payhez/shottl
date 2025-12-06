@@ -5,7 +5,6 @@ import com.shottl.model.Manager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,9 +17,9 @@ import static com.shottl.utils.UserUtils.hasAtLeastOneCommunicationChannel;
 @RequiredArgsConstructor
 public class ManagerService {
 
-    private ManagerRepository managerRepository;
-    private KeycloakService keycloakService;
-    private ServiceHelper serviceHelper;
+    private final ManagerRepository managerRepository;
+    private final KeycloakService keycloakService;
+    private final ServiceHelper serviceHelper;
 
     public Mono<Void> addManager(final Manager manager, final String password) {
         if (!hasAtLeastOneCommunicationChannel(manager)) {

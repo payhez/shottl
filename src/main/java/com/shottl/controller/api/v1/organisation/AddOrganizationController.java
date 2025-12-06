@@ -3,8 +3,8 @@ package com.shottl.controller.api.v1.organisation;
 import com.shottl.controller.request.AddOrganisationRequest;
 import com.shottl.model.Organisation;
 import com.shottl.service.OrganisationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -20,10 +20,10 @@ import java.util.Collections;
 @RestController
 @Slf4j
 @RequestMapping
+@RequiredArgsConstructor
 public class AddOrganizationController {
 
-    @Autowired
-    private OrganisationService organisationService;
+    private final OrganisationService organisationService;
 
     @PostMapping("/add")
     Mono<ResponseEntity<String>> addOrganisation(@RequestBody AddOrganisationRequest request,

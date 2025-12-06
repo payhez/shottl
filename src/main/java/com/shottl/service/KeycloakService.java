@@ -6,6 +6,7 @@ import com.shottl.model.User;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.keycloak.admin.client.CreatedResponseUtil;
@@ -16,7 +17,6 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -24,16 +24,12 @@ import java.util.Collections;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class KeycloakService {
 
     private final Keycloak keycloak;
 
-    @Autowired
-    private KeycloakConfig keycloakConfig;
-
-    public KeycloakService(Keycloak keycloak) {
-        this.keycloak = keycloak;
-    }
+    private final KeycloakConfig keycloakConfig;
 
     public Mono<String> createUserOnKeycloak(final User savedUser, final String password, final String role) {
         String userId;

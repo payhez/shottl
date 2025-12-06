@@ -5,9 +5,9 @@ import com.shottl.model.Passenger;
 import com.shottl.service.OrganisationService;
 import com.shottl.service.PassengerService;
 import com.shottl.utils.UserUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +21,11 @@ import java.util.Date;
 @RestController
 @Slf4j
 @RequestMapping
+@RequiredArgsConstructor
 public class PassengerSignUpController {
 
-    @Autowired
-    private PassengerService passengerService;
-
-    @Autowired
-    private OrganisationService organisationService;
+    private final PassengerService passengerService;
+    private final OrganisationService organisationService;
 
     @PostMapping("/signup")
     Mono<ResponseEntity<String>> signUpPassenger(@RequestBody PassengerSignUpRequest request) {

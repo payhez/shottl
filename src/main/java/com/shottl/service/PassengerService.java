@@ -4,8 +4,8 @@ import com.shottl.dao.OrganisationRepository;
 import com.shottl.dao.PassengerRepository;
 import com.shottl.model.Organisation;
 import com.shottl.model.Passenger;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,19 +15,13 @@ import static com.shottl.utils.UserUtils.hasAtLeastOneCommunicationChannel;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PassengerService {
 
-    @Autowired
-    private PassengerRepository passengerRepository;
-
-    @Autowired
-    private OrganisationRepository organisationRepository;
-
-    @Autowired
-    private KeycloakService keycloakService;
-
-    @Autowired
-    private ServiceHelper serviceHelper;
+    private final PassengerRepository passengerRepository;
+    private final OrganisationRepository organisationRepository;
+    private final KeycloakService keycloakService;
+    private final ServiceHelper serviceHelper;
 
     public Mono<Passenger> addPassenger(final Passenger passenger,
                                         final Organisation organisation,

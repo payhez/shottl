@@ -2,8 +2,8 @@ package com.shottl.service;
 
 import com.shottl.dao.OrganisationRepository;
 import com.shottl.model.Organisation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OrganisationService {
 
-    @Autowired
-    private OrganisationRepository organisationRepository;
+    private final OrganisationRepository organisationRepository;
 
     public Mono<Organisation> addOrganisation(final Organisation organisation) {
         String invitationCode = UUID.randomUUID().toString();

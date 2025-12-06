@@ -15,13 +15,10 @@ public class UserUtils {
         );
     }
 
-    public static boolean isUUID(final String stringToBeValidated) {
-        if (stringToBeValidated == null) {
-            return false;
-        }
-
+    public static boolean isUUID(final String s) {
         try {
-            UUID uuid = UUID.fromString(stringToBeValidated);
+            if (s == null) return false;
+            UUID.fromString(s);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
